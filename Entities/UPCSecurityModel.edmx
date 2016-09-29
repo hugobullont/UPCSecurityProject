@@ -1,0 +1,731 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SeguridadUPCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="idCustomer" />
+          </Key>
+          <Property Name="idCustomer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DNI" Type="int" Nullable="false" />
+          <Property Name="idCustomerType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerTypes">
+          <Key>
+            <PropertyRef Name="idCustomerType" />
+          </Key>
+          <Property Name="idCustomerType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocTypes">
+          <Key>
+            <PropertyRef Name="idDocType" />
+          </Key>
+          <Property Name="idDocType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="idDocument" />
+          </Key>
+          <Property Name="idDocument" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="idDocType" Type="int" Nullable="false" />
+          <Property Name="idIncidence" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Environments">
+          <Key>
+            <PropertyRef Name="idEnvironment" />
+          </Key>
+          <Property Name="idEnvironment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Incidences">
+          <Key>
+            <PropertyRef Name="idIncidence" />
+          </Key>
+          <Property Name="idIncidence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="idState" Type="int" Nullable="false" />
+          <Property Name="idEnvironment" Type="int" Nullable="false" />
+          <Property Name="idLocal" Type="int" Nullable="false" />
+          <Property Name="idUser" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Locals">
+          <Key>
+            <PropertyRef Name="idLocal" />
+          </Key>
+          <Property Name="idLocal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RelationIncidenceCustomers">
+          <Key>
+            <PropertyRef Name="idRelIncCustomer" />
+          </Key>
+          <Property Name="idRelIncCustomer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idIncidence" Type="int" Nullable="false" />
+          <Property Name="idCustomer" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="States">
+          <Key>
+            <PropertyRef Name="idState" />
+          </Key>
+          <Property Name="idState" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="idUserType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTypes">
+          <Key>
+            <PropertyRef Name="idUserType" />
+          </Key>
+          <Property Name="idUserType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Customers_CustomerTypes">
+          <End Role="CustomerTypes" Type="Self.CustomerTypes" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerTypes">
+              <PropertyRef Name="idCustomerType" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="idCustomerType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_DocTypes">
+          <End Role="DocTypes" Type="Self.DocTypes" Multiplicity="1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocTypes">
+              <PropertyRef Name="idDocType" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="idDocType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_Incidences">
+          <End Role="Incidences" Type="Self.Incidences" Multiplicity="1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incidences">
+              <PropertyRef Name="idIncidence" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="idIncidence" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incidences_Environments">
+          <End Role="Environments" Type="Self.Environments" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Environments">
+              <PropertyRef Name="idEnvironment" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="idEnvironment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incidences_Locals">
+          <End Role="Locals" Type="Self.Locals" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locals">
+              <PropertyRef Name="idLocal" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="idLocal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incidences_States">
+          <End Role="States" Type="Self.States" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="States">
+              <PropertyRef Name="idState" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incidences_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationIncidenceCustomers_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="RelationIncidenceCustomers" Type="Self.RelationIncidenceCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="idCustomer" />
+            </Principal>
+            <Dependent Role="RelationIncidenceCustomers">
+              <PropertyRef Name="idCustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationIncidenceCustomers_Incidences">
+          <End Role="Incidences" Type="Self.Incidences" Multiplicity="1" />
+          <End Role="RelationIncidenceCustomers" Type="Self.RelationIncidenceCustomers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incidences">
+              <PropertyRef Name="idIncidence" />
+            </Principal>
+            <Dependent Role="RelationIncidenceCustomers">
+              <PropertyRef Name="idIncidence" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserTypes">
+          <End Role="UserTypes" Type="Self.UserTypes" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypes">
+              <PropertyRef Name="idUserType" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="idUserType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SeguridadUPCModelStoreContainer">
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerTypes" EntityType="Self.CustomerTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocTypes" EntityType="Self.DocTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Environments" EntityType="Self.Environments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Incidences" EntityType="Self.Incidences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locals" EntityType="Self.Locals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RelationIncidenceCustomers" EntityType="Self.RelationIncidenceCustomers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Customers_CustomerTypes" Association="Self.FK_Customers_CustomerTypes">
+            <End Role="CustomerTypes" EntitySet="CustomerTypes" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_DocTypes" Association="Self.FK_Documents_DocTypes">
+            <End Role="DocTypes" EntitySet="DocTypes" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_Incidences" Association="Self.FK_Documents_Incidences">
+            <End Role="Incidences" EntitySet="Incidences" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incidences_Environments" Association="Self.FK_Incidences_Environments">
+            <End Role="Environments" EntitySet="Environments" />
+            <End Role="Incidences" EntitySet="Incidences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incidences_Locals" Association="Self.FK_Incidences_Locals">
+            <End Role="Locals" EntitySet="Locals" />
+            <End Role="Incidences" EntitySet="Incidences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incidences_States" Association="Self.FK_Incidences_States">
+            <End Role="States" EntitySet="States" />
+            <End Role="Incidences" EntitySet="Incidences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incidences_Users" Association="Self.FK_Incidences_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Incidences" EntitySet="Incidences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationIncidenceCustomers_Customers" Association="Self.FK_RelationIncidenceCustomers_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="RelationIncidenceCustomers" EntitySet="RelationIncidenceCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationIncidenceCustomers_Incidences" Association="Self.FK_RelationIncidenceCustomers_Incidences">
+            <End Role="Incidences" EntitySet="Incidences" />
+            <End Role="RelationIncidenceCustomers" EntitySet="RelationIncidenceCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserTypes" Association="Self.FK_Users_UserTypes">
+            <End Role="UserTypes" EntitySet="UserTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SeguridadUPCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="idCustomer" />
+          </Key>
+          <Property Name="idCustomer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DNI" Type="Int32" Nullable="false" />
+          <Property Name="idCustomerType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustomerType" Relationship="Self.FK_Customers_CustomerTypes" FromRole="Customers" ToRole="CustomerTypes" />
+          <NavigationProperty Name="RelationIncidenceCustomers" Relationship="Self.FK_RelationIncidenceCustomers_Customers" FromRole="Customers" ToRole="RelationIncidenceCustomers" />
+        </EntityType>
+        <EntityType Name="CustomerType">
+          <Key>
+            <PropertyRef Name="idCustomerType" />
+          </Key>
+          <Property Name="idCustomerType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customers_CustomerTypes" FromRole="CustomerTypes" ToRole="Customers" />
+        </EntityType>
+        <EntityType Name="DocType">
+          <Key>
+            <PropertyRef Name="idDocType" />
+          </Key>
+          <Property Name="idDocType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Documents" Relationship="Self.FK_Documents_DocTypes" FromRole="DocTypes" ToRole="Documents" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="idDocument" />
+          </Key>
+          <Property Name="idDocument" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FilePath" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idDocType" Type="Int32" Nullable="false" />
+          <Property Name="idIncidence" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DocType" Relationship="Self.FK_Documents_DocTypes" FromRole="Documents" ToRole="DocTypes" />
+          <NavigationProperty Name="Incidence" Relationship="Self.FK_Documents_Incidences" FromRole="Documents" ToRole="Incidences" />
+        </EntityType>
+        <EntityType Name="Environment">
+          <Key>
+            <PropertyRef Name="idEnvironment" />
+          </Key>
+          <Property Name="idEnvironment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Incidences" Relationship="Self.FK_Incidences_Environments" FromRole="Environments" ToRole="Incidences" />
+        </EntityType>
+        <EntityType Name="Incidence">
+          <Key>
+            <PropertyRef Name="idIncidence" />
+          </Key>
+          <Property Name="idIncidence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idState" Type="Int32" Nullable="false" />
+          <Property Name="idEnvironment" Type="Int32" Nullable="false" />
+          <Property Name="idLocal" Type="Int32" Nullable="false" />
+          <Property Name="idUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Documents" Relationship="Self.FK_Documents_Incidences" FromRole="Incidences" ToRole="Documents" />
+          <NavigationProperty Name="Environment" Relationship="Self.FK_Incidences_Environments" FromRole="Incidences" ToRole="Environments" />
+          <NavigationProperty Name="Local" Relationship="Self.FK_Incidences_Locals" FromRole="Incidences" ToRole="Locals" />
+          <NavigationProperty Name="State" Relationship="Self.FK_Incidences_States" FromRole="Incidences" ToRole="States" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Incidences_Users" FromRole="Incidences" ToRole="Users" />
+          <NavigationProperty Name="RelationIncidenceCustomers" Relationship="Self.FK_RelationIncidenceCustomers_Incidences" FromRole="Incidences" ToRole="RelationIncidenceCustomers" />
+        </EntityType>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="idLocal" />
+          </Key>
+          <Property Name="idLocal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Incidences" Relationship="Self.FK_Incidences_Locals" FromRole="Locals" ToRole="Incidences" />
+        </EntityType>
+        <EntityType Name="RelationIncidenceCustomer">
+          <Key>
+            <PropertyRef Name="idRelIncCustomer" />
+          </Key>
+          <Property Name="idRelIncCustomer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idIncidence" Type="Int32" Nullable="false" />
+          <Property Name="idCustomer" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_RelationIncidenceCustomers_Customers" FromRole="RelationIncidenceCustomers" ToRole="Customers" />
+          <NavigationProperty Name="Incidence" Relationship="Self.FK_RelationIncidenceCustomers_Incidences" FromRole="RelationIncidenceCustomers" ToRole="Incidences" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="idState" />
+          </Key>
+          <Property Name="idState" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Incidences" Relationship="Self.FK_Incidences_States" FromRole="States" ToRole="Incidences" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idUserType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Incidences" Relationship="Self.FK_Incidences_Users" FromRole="Users" ToRole="Incidences" />
+          <NavigationProperty Name="UserType" Relationship="Self.FK_Users_UserTypes" FromRole="Users" ToRole="UserTypes" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="idUserType" />
+          </Key>
+          <Property Name="idUserType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_UserTypes" FromRole="UserTypes" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Customers_CustomerTypes">
+          <End Role="CustomerTypes" Type="Self.CustomerType" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerTypes">
+              <PropertyRef Name="idCustomerType" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="idCustomerType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationIncidenceCustomers_Customers">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="RelationIncidenceCustomers" Type="Self.RelationIncidenceCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="idCustomer" />
+            </Principal>
+            <Dependent Role="RelationIncidenceCustomers">
+              <PropertyRef Name="idCustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_DocTypes">
+          <End Role="DocTypes" Type="Self.DocType" Multiplicity="1" />
+          <End Role="Documents" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocTypes">
+              <PropertyRef Name="idDocType" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="idDocType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_Incidences">
+          <End Role="Incidences" Type="Self.Incidence" Multiplicity="1" />
+          <End Role="Documents" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incidences">
+              <PropertyRef Name="idIncidence" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="idIncidence" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incidences_Environments">
+          <End Role="Environments" Type="Self.Environment" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Environments">
+              <PropertyRef Name="idEnvironment" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="idEnvironment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incidences_Locals">
+          <End Role="Locals" Type="Self.Local" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locals">
+              <PropertyRef Name="idLocal" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="idLocal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incidences_States">
+          <End Role="States" Type="Self.State" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="States">
+              <PropertyRef Name="idState" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incidences_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelationIncidenceCustomers_Incidences">
+          <End Role="Incidences" Type="Self.Incidence" Multiplicity="1" />
+          <End Role="RelationIncidenceCustomers" Type="Self.RelationIncidenceCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Incidences">
+              <PropertyRef Name="idIncidence" />
+            </Principal>
+            <Dependent Role="RelationIncidenceCustomers">
+              <PropertyRef Name="idIncidence" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserTypes">
+          <End Role="UserTypes" Type="Self.UserType" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypes">
+              <PropertyRef Name="idUserType" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="idUserType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SeguridadUPCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="CustomerTypes" EntityType="Self.CustomerType" />
+          <EntitySet Name="DocTypes" EntityType="Self.DocType" />
+          <EntitySet Name="Documents" EntityType="Self.Document" />
+          <EntitySet Name="Environments" EntityType="Self.Environment" />
+          <EntitySet Name="Incidences" EntityType="Self.Incidence" />
+          <EntitySet Name="Locals" EntityType="Self.Local" />
+          <EntitySet Name="RelationIncidenceCustomers" EntityType="Self.RelationIncidenceCustomer" />
+          <EntitySet Name="States" EntityType="Self.State" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserType" />
+          <AssociationSet Name="FK_Customers_CustomerTypes" Association="Self.FK_Customers_CustomerTypes">
+            <End Role="CustomerTypes" EntitySet="CustomerTypes" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationIncidenceCustomers_Customers" Association="Self.FK_RelationIncidenceCustomers_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="RelationIncidenceCustomers" EntitySet="RelationIncidenceCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_DocTypes" Association="Self.FK_Documents_DocTypes">
+            <End Role="DocTypes" EntitySet="DocTypes" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_Incidences" Association="Self.FK_Documents_Incidences">
+            <End Role="Incidences" EntitySet="Incidences" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incidences_Environments" Association="Self.FK_Incidences_Environments">
+            <End Role="Environments" EntitySet="Environments" />
+            <End Role="Incidences" EntitySet="Incidences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incidences_Locals" Association="Self.FK_Incidences_Locals">
+            <End Role="Locals" EntitySet="Locals" />
+            <End Role="Incidences" EntitySet="Incidences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incidences_States" Association="Self.FK_Incidences_States">
+            <End Role="States" EntitySet="States" />
+            <End Role="Incidences" EntitySet="Incidences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incidences_Users" Association="Self.FK_Incidences_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Incidences" EntitySet="Incidences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelationIncidenceCustomers_Incidences" Association="Self.FK_RelationIncidenceCustomers_Incidences">
+            <End Role="Incidences" EntitySet="Incidences" />
+            <End Role="RelationIncidenceCustomers" EntitySet="RelationIncidenceCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserTypes" Association="Self.FK_Users_UserTypes">
+            <End Role="UserTypes" EntitySet="UserTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SeguridadUPCModelStoreContainer" CdmEntityContainer="SeguridadUPCEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="idCustomer" ColumnName="idCustomer" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="idCustomerType" ColumnName="idCustomerType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerTypes">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.CustomerType">
+              <MappingFragment StoreEntitySet="CustomerTypes">
+                <ScalarProperty Name="idCustomerType" ColumnName="idCustomerType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocTypes">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.DocType">
+              <MappingFragment StoreEntitySet="DocTypes">
+                <ScalarProperty Name="idDocType" ColumnName="idDocType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.Document">
+              <MappingFragment StoreEntitySet="Documents">
+                <ScalarProperty Name="idDocument" ColumnName="idDocument" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="idDocType" ColumnName="idDocType" />
+                <ScalarProperty Name="idIncidence" ColumnName="idIncidence" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Environments">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.Environment">
+              <MappingFragment StoreEntitySet="Environments">
+                <ScalarProperty Name="idEnvironment" ColumnName="idEnvironment" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Incidences">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.Incidence">
+              <MappingFragment StoreEntitySet="Incidences">
+                <ScalarProperty Name="idIncidence" ColumnName="idIncidence" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="idState" ColumnName="idState" />
+                <ScalarProperty Name="idEnvironment" ColumnName="idEnvironment" />
+                <ScalarProperty Name="idLocal" ColumnName="idLocal" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locals">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.Local">
+              <MappingFragment StoreEntitySet="Locals">
+                <ScalarProperty Name="idLocal" ColumnName="idLocal" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RelationIncidenceCustomers">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.RelationIncidenceCustomer">
+              <MappingFragment StoreEntitySet="RelationIncidenceCustomers">
+                <ScalarProperty Name="idRelIncCustomer" ColumnName="idRelIncCustomer" />
+                <ScalarProperty Name="idIncidence" ColumnName="idIncidence" />
+                <ScalarProperty Name="idCustomer" ColumnName="idCustomer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.State">
+              <MappingFragment StoreEntitySet="States">
+                <ScalarProperty Name="idState" ColumnName="idState" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="idUserType" ColumnName="idUserType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTypes">
+            <EntityTypeMapping TypeName="SeguridadUPCModel.UserType">
+              <MappingFragment StoreEntitySet="UserTypes">
+                <ScalarProperty Name="idUserType" ColumnName="idUserType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

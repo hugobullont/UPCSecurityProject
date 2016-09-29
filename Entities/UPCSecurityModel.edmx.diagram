@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="09c3df771712431fa1994959b7beb2a3" Name="Diagram1">
+        <EntityTypeShape EntityType="SeguridadUPCModel.Customer" Width="1.5" PointX="8.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.CustomerType" Width="1.5" PointX="6" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.DocType" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.Document" Width="1.5" PointX="7.5" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.Environment" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.Incidence" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.Local" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.RelationIncidenceCustomer" Width="1.5" PointX="10.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.State" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.sysdiagram" Width="1.5" PointX="8.5" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.User" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SeguridadUPCModel.UserType" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_Customers_CustomerTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_RelationIncidenceCustomers_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_Documents_DocTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_Documents_Incidences" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_Incidences_Environments" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_Incidences_Locals" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_Incidences_States" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_Incidences_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_RelationIncidenceCustomers_Incidences" ManuallyRouted="false" />
+        <AssociationConnector Association="SeguridadUPCModel.FK_Users_UserTypes" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
