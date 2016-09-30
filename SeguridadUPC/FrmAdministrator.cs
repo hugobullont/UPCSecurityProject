@@ -10,20 +10,16 @@ using System.Windows.Forms;
 
 namespace SeguridadUPC
 {
-    public partial class Login : Form
+    public partial class FrmAdministrator : Form
     {
-        public Login()
+        public FrmAdministrator()
         {
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmAdministrator frmAdmin = new FrmAdministrator();
-            Hide();
-            using (frmAdmin)
-                frmAdmin.ShowDialog();
-            Show();
+            Close();
         }
     }
 }
