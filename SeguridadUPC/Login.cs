@@ -19,11 +19,12 @@ namespace SeguridadUPC
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            FrmAdministrator frmAdmin = new FrmAdministrator();
+            FrmAdministrator frmAdmin = new FrmAdministrator(this);
             Hide();
-            using (frmAdmin)
-                frmAdmin.ShowDialog();
-            Show();
+            frmAdmin.Show();
+            //using (frmAdmin)
+            //    frmAdmin.ShowDialog();
+            //Show();
         }
     }
 }
